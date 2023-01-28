@@ -1,49 +1,51 @@
 let randomNumber = Math.floor(Math.random() * 3) + 1;
-
+let gameOver = false;
 const lastResult = document.querySelector('.lastResult');
 const buttons = document.querySelector('.btn-group');
 const primaryButton = document.querySelector('.primaryButton');
 const secondaryButton = document.querySelector('.secondaryButton');
 const tertiaryButton = document.querySelector('.tertiaryButton');
+const allButtons = [primaryButton, secondaryButton, tertiaryButton];
 
 let resetButton;
 
-buttons.addEventListener('click', (event) => {
-  const isButton = event.target.nodeName === 'BUTTON';
-  
-  if (!isButton) {
+buttons.addEventListener('click', (event) => {  
+  if (!event.target.nodeName === 'BUTTON' || gameOver) {
     return;
-  } else if(Number(event.target.id) === randomNumber) {
+  }
+  if(Number(event.target.id) === randomNumber) {
     lastResult.textContent = 'Congratulations! You got it right!';
     lastResult.style.backgroundColor = 'green';
-    setGameOver();
+    
   } else {
     lastResult.textContent = '!!!GAME OVER!!!' + ` THE WINNER BUTTON WAS ${randomNumber}!`;
     lastResult.style.backgroundColor = 'red';
-    setGameOver();
   }
+  setGameOver();
 });
 
 function setGameOver() {
-    primaryButton.disabled = true;
-    secondaryButton.disabled = true;
-    tertiaryButton.disabled = true;
-    resetButton = document.createElement('button');
-    resetButton.textContent = 'Start new game';
-    document.body.append(resetButton);
-    resetButton.addEventListener('click', resetGame);
+    allButtons.forEach(button => button.disabled = true);
+    if (!gameOver) {
+      resetButton = document.createElement('button');
+      resetButton.textContent = 'Start new game';
+      document.body.append(resetButton);
+      resetButton.addEventListener('click', resetGame);
+    }
+    gameOver = true;
 }
 
 function resetGame() {
-    lastResult.textContent = '';
+  resetAll();
+  gameOver = false;
+}
 
+function resetAll() {
+  lastResult.textContent = '';
+  allButtons.forEach(button => button.disabled = false);
+  lastResult.style.backgroundColor = 'white';
+  randomNumber = Math.floor(Math.random() * 3) + 1;
+  if (resetButton) {
     resetButton.parentNode.removeChild(resetButton);
-
-    primaryButton.disabled = false;
-    secondaryButton.disabled = false;
-    tertiaryButton.disabled = false;
-
-    lastResult.style.backgroundColor = 'white';
-
-    randomNumber = Math.floor(Math.random() * 3) + 1;
+  }
 }
