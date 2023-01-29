@@ -1,5 +1,5 @@
 let randomNumber = Math.floor(Math.random() * 3) + 1;
-let gameOver = false;
+
 const lastResult = document.querySelector('.lastResult');
 const buttons = document.querySelector('.btn-group');
 const primaryButton = document.querySelector('.primaryButton');
@@ -8,6 +8,7 @@ const tertiaryButton = document.querySelector('.tertiaryButton');
 const allButtons = [primaryButton, secondaryButton, tertiaryButton];
 
 let resetButton;
+let gameOver = false;
 
 buttons.addEventListener('click', (event) => {  
   if (!event.target.nodeName === 'BUTTON' || gameOver) {
@@ -30,7 +31,7 @@ function setGameOver() {
       resetButton = document.createElement('button');
       resetButton.textContent = 'Start new game';
       document.body.append(resetButton);
-      resetButton.addEventListener('click', resetGame);
+      resetButton.onclick = resetGame;
     }
     gameOver = true;
 }
