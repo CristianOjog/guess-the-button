@@ -30,8 +30,8 @@ function setGameOver() {
     if (!gameOver) {
       resetButton = document.createElement('button');
       resetButton.textContent = 'Start new game';
-      document.body.append(resetButton);
       resetButton.onclick = resetGame;
+      document.body.append(resetButton);
     }
     gameOver = true;
 }
